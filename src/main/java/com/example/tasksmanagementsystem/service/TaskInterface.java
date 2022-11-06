@@ -14,5 +14,5 @@ public interface TaskInterface {
 	void updateTask(Long taskId, TaskUpdateDto updatedTask);
 
 	@Transactional
-	void assignTask(Long taskId, Long studentId);
+	Task assignTask(Long taskId, Long studentId);
 }

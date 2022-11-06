@@ -9,8 +9,5 @@ import java.util.Optional;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 	Optional<Task> findTaskById(Long id);
-//	@Query("SELECT t FROM Task t INNER JOIN Student s WHERE s.id=?1")
-	Optional<Task> findTaskByStudentId(Long studentId);
 	Optional<Task> findTaskByTitle(String title);
-
 }
