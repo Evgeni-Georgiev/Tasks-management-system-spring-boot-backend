@@ -24,10 +24,7 @@ public class Task {
 	private String title;
 	private String description;
 
-//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@ManyToOne
-//	@OnDelete(action = OnDeleteAction.CASCADE)
-//	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name="student_id", referencedColumnName = "id")
 	private Student student;
 
@@ -69,21 +66,13 @@ public class Task {
 		this.student = student;
 	}
 
-	public Task updateWith(Task task) {
-		return new Task(
-			this.id,
-			task.title,
-			task.description,
-			task.student
-		);
-	}
-
 	@Override
 	public String toString() {
 		return "Task{" +
 			"id=" + id +
 			", title='" + title + '\'' +
 			", description='" + description + '\'' +
+			", student='" + student + '\'' +
 			'}';
 	}
 }
