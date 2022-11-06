@@ -1,59 +1,46 @@
 package com.example.tasksmanagementsystem.controller;
 
 import com.example.tasksmanagementsystem.dto.TaskUpdateDto;
-import com.example.tasksmanagementsystem.model.Student;
 import com.example.tasksmanagementsystem.model.Task;
-import com.example.tasksmanagementsystem.repository.StudentRepository;
-import com.example.tasksmanagementsystem.repository.TaskRepository;
 import com.example.tasksmanagementsystem.service.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "api/v1/task")
 public class TaskController {
 
 	private final TaskService taskService;
-	@Autowired
-	private final TaskRepository taskRepository;
-	@Autowired
-	private final StudentRepository studentRepository;
-
-	@Autowired
-	public TaskController(TaskService taskService, TaskRepository taskRepository, StudentRepository studentRepository) {
-		this.taskService = taskService;
-		this.taskRepository = taskRepository;
-		this.studentRepository = studentRepository;
-	}
 
 	@GetMapping
 	public List<Task> getTask() {
 		return taskService.getTasks();
 	}
 
-	@GetMapping(path = "student/{studentId}")
-	public Optional<Task> getTaskByStudentId(@PathVariable Long studentId) {
-		return taskService.getTaskByStudentId(studentId);
-	}
-
 	@GetMapping(path = "{taskId}")
-	public Optional<Task> getTaskById(@PathVariable Long taskId) {
-		return taskService.getTaskById(taskId);
+	public ResponseEntity<Task> getTaskById(@PathVariable Long taskId) {
+		var task = taskService.getTaskById(taskId);
+		return ResponseEntity.ok().body(task);
 	}
 
 	@PostMapping
-	public void createNewTask(@RequestBody Task task) {
-		taskService.createTask(task);
+	public ResponseEntity<?> createNewTask(@RequestBody Task task) {
+		var newTask = taskService.createTask(task);
+		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/task/" + newTask).toUriString());
+		return ResponseEntity.ok().body(uri);
 	}
 
 	@DeleteMapping(path = "{taskId}")
-	public void deleteTask(@PathVariable("taskId") Long taskId) {
+	public ResponseEntity<?> deleteTask(@PathVariable("taskId") Long taskId) {
 		taskService.deleteTask(taskId);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping(path = "{taskId}")
@@ -67,14 +54,12 @@ public class TaskController {
 
 
 	@PutMapping(path = "{taskId}/student/{studentId}")
-	public Task assignTaskToStudent(
+	public ResponseEntity<?> assignTaskToStudent(
 		@PathVariable Long taskId,
 		@PathVariable Long studentId
 	) {
-		Task task = taskRepository.findById(taskId).get();
-		Student student = studentRepository.findById(studentId).get();
-		task.assignStudent(student);
-		return taskRepository.save(task);
+		taskService.assignTask(taskId, studentId);
+		return ResponseEntity.noContent().build();
 	}
 
 }
