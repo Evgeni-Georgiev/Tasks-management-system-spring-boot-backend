@@ -8,14 +8,19 @@ import lombok.NonNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskUpdateDto {
+public class StudentUpdateDto {
+	@NonNull
+	private String name;
 
 	@NonNull
-	private String title;
+	private String email;
 
 	@NonNull
-	private String description;
+	private Long phone;
 
 	@NonNull
-	private Long studentId;
+	private String address;
+
+	@NonNull
+	private String picture;
 }
