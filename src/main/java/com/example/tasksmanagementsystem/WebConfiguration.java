@@ -14,7 +14,7 @@ import java.util.List;
 public class WebConfiguration {
 
 	@Bean
-	CommandLineRunner commandLineRunner(StudentRepository repository, TaskRepository repository2) {
+	CommandLineRunner commandLineRunner(StudentRepository studentRepository, TaskRepository taskRepository) {
 		return args -> {
 			Student rinzler = new Student(
 				"Rinzler",
@@ -41,10 +41,10 @@ public class WebConfiguration {
 			Task taskTwo = new Task(
 				"Task 2",
 				"Must work",
-				rinzler
+				alex
 			);
-//			repository2.saveAll(List.of(taskOne, taskTwo));
-			repository.saveAll(List.of(rinzler, alex));
+			studentRepository.saveAll(List.of(rinzler, alex));
+			taskRepository.saveAll(List.of(taskOne, taskTwo));
 		};
 	}
 
