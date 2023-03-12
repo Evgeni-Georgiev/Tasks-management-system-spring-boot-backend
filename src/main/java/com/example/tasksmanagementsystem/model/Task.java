@@ -21,7 +21,9 @@ public class Task {
 		strategy = GenerationType.SEQUENCE
 	)
 	private Long id;
+
 	private String title;
+
 	private String description;
 
 	@ManyToOne
@@ -60,6 +62,10 @@ public class Task {
 
 	public Student getStudent() {
 		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
 	public void assignStudent(Student student) {

@@ -28,13 +28,16 @@ public class Student {
 	private Long id;
 
 	private String name;
+
 	private String email;
+
 	private Long phone;
+
 	private String address;
+
 	private String picture;
 
 	@Transient
-
 	@JsonIgnore
 //	@OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, orphanRemoval = true)
 //	@OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
