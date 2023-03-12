@@ -2,8 +2,11 @@ package com.example.tasksmanagementsystem.controller;
 
 import com.example.tasksmanagementsystem.dto.StudentUpdateDto;
 import com.example.tasksmanagementsystem.model.Student;
+import com.example.tasksmanagementsystem.repository.StudentRepository;
+import com.example.tasksmanagementsystem.repository.TaskRepository;
 import com.example.tasksmanagementsystem.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -11,12 +14,19 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
-@CrossOrigin(origins="http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins="http://localhost:8080", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path="api/v1/student")
 public class StudentController {
+
 	private final StudentService studentService;
+
+	@Autowired
+	private final StudentRepository studentRepository;
+
+	@Autowired
+	private final TaskRepository taskRepository;
 
 	@GetMapping
 	public ResponseEntity<List<Student>> getStudents() {
@@ -49,5 +59,12 @@ public class StudentController {
 		return ResponseEntity.noContent().build();
 	}
 
-
+//	@PutMapping("/student/{studentId}/task/{taskId}")
+//	public void assignStudentToTask(@PathVariable("studentId") Long studentId, @PathVariable("taskId") Long taskId) {
+//		Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalArgumentException("Invalid student id"));
+//		Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Invalid task id"));
+//		task.setStudent(student);
+//		student.getTasks().add(task);
+//		studentRepository.save(student);
+//	}
 }
